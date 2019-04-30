@@ -38,7 +38,7 @@ public class Color {
 		 *
 		 */
 		
-		private int test;
+		private int test2;
 		//---------------------------------------------------------//
 
 		private int colorResult = 0;
