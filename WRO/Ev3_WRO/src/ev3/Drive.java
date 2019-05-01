@@ -33,12 +33,29 @@ import lejos.utility.Delay;
  * 
  */
 public class Drive {
-
-
+	/*
+	 * Color ist der Color sensor dabei gilt
+	 	 * weiß = 1
+		 * schwarz = 2
+		 * rot = 3
+		 * blau = 4
+		 * gelb = 5
+		 * grün = 6 
+	 */
+	
 	static Color Color1 = new Color(SensorPort.S1);
 	static Color Color2 = new Color(SensorPort.S2);
 	static Color Color3 = new Color(SensorPort.S3);
 	
+	// Motor auswahl
+	static final NXTRegulatedMotor MotorLeft = Motor.A; // Linker Motor
+	static final NXTRegulatedMotor MotorRight = Motor.D; // Rechter Motor
+	
+	
+	static final float motorStark = 80;		// geschwindigkeit des Motors
+	private static final long turnTime = 1; // zeitliche versetzung für Dreheung
+	private static final long turnDelay = 500; // scan verzögerung
+	 
 	private static int sens(int i) {
 		
 	int sensor = 0;
@@ -48,14 +65,22 @@ public class Drive {
 
 	return sensor;
 	}
-	static final NXTRegulatedMotor MotorLeft = Motor.A;
-	static final NXTRegulatedMotor MotorRight = Motor.D;
-	 
-	static final float motorStark = 80		;
-	private static final long turnTime = 1;
-	private static final long turnDelay = 500;
-	 
-	
+	 public static void panic() {
+		 MotorLeft.forward();
+		 MotorRight.forward();
+		 Delay.msDelay(500);
+		 MotorRight.stop();
+		 MotorLeft.stop();
+		 
+		 while(sens(1) == 1){
+			 MotorLeft.backward();
+			 MotorRight.backward();
+			 Delay.msDelay(500);
+			 MotorRight.stop();
+			 MotorLeft.stop();
+		 }
+		 
+	 }
 	 public static void Curve(boolean left,float pro_stark) {
 			 MotorLeft.setSpeed(motorStark*pro_stark);
 			 int sens = sens(2);
@@ -115,4 +140,7 @@ public class Drive {
 		 }
 	 }	
 
+	 public static void Xcrossseting(int dirction) {
+		 
+	 }
 }

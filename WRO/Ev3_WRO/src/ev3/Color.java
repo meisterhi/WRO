@@ -63,19 +63,15 @@ public class Color {
 		}
 		
 		public void colortset() {
-			
-	
 			color.fetchSample(colorSample, 0);
 			lcd.drawString(""+colorSample[0]*100,0,2);
 			lcd.drawString(""+colorSample[1]*100,0,3);
-			lcd.drawString(""+colorSample[2]*100,0,4);
-			
-		
-
+			lcd.drawString(""+colorSample[2]*100,0,4);		
 		}
 	
 	public int color() {
 		color.fetchSample(colorSample, 0);
+		
 		 if(selector(colorSample,whiteMin,whiteMax))		{colorResult = 1;}
 		 else if(selector(colorSample,blackMin,blackMax)) 	{colorResult = 2;}
 		 else if(selector(colorSample,redMin,redMax)) 		{colorResult = 3;}
@@ -99,15 +95,5 @@ public class Color {
 			else { color_r = false;}
 			
 			return color_r;
-			
-			/* 
-			 * weiß = 1
-			 * schwarz = 2
-			 * rot = 3
-			 * blau = 4
-			 * gelb = 5
-			 * grün = 6 
-			 *
-			 */
 		} 
 }

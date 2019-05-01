@@ -13,13 +13,15 @@ public class WroEv3 {
  * D	Rechts	|	4 Seite		|
 */
 	
+	@SuppressWarnings("unused")
 	public static void main(String[] args) {
 		final EV3 ev3 = (EV3) BrickFinder.getLocal();
-		@SuppressWarnings("unused")
+
 		TextLCD lcd = ev3.getTextLCD();
 		Color color1 = new Color(SensorPort.S1);
-		//Color color2 = new Color(SensorPort.S2);
-		//Color color3 = new Color(SensorPort.S3);
+		Color color2 = new Color(SensorPort.S2);
+		Color color3 = new Color(SensorPort.S3);
+		
 		while(true) {
 			Drive.Curve(true,1);
 			
