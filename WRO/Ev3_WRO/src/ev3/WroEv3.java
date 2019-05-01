@@ -23,7 +23,7 @@ public class WroEv3 {
 		Color color3 = new Color(SensorPort.S3);
 		
 		while(true) {
-			Drive.Curve(true,1);
+			Drive.Curve(true,false, 1);
 			
 		}
 		
