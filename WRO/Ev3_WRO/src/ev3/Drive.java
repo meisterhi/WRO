@@ -22,10 +22,14 @@ import lejos.utility.Delay;
 	 * 6|2 2 2 > X Kreuzung Grade
 	 * 7|2 2 1 > T kreuzng Links || Ecke
 	 * 8|1 2 2 > T kreuzung Rechts || Ecke
- * 
- * weiß = 1
- * schwarz = 2
- * 
+	 * 
+* Color ist der Color sensor dabei gilt
+* weiß = 1
+* schwarz = 2
+* rot = 3
+* blau = 4
+* gelb = 5
+* grün = 6 
 */
 /**
  * Drive ist für die Fahrt zustämdig
@@ -33,15 +37,6 @@ import lejos.utility.Delay;
  * 
  */
 public class Drive {
-	/*
-	 * Color ist der Color sensor dabei gilt
-	 	 * weiß = 1
-		 * schwarz = 2
-		 * rot = 3
-		 * blau = 4
-		 * gelb = 5
-		 * grün = 6 
-	 */
 	
 	static Color Color1 = new Color(SensorPort.S1);
 	static Color Color2 = new Color(SensorPort.S2);
@@ -65,6 +60,7 @@ public class Drive {
 
 	return sensor;
 	}
+	
 	 public static void panic() {
 		 MotorLeft.forward();
 		 MotorRight.forward();
@@ -73,6 +69,7 @@ public class Drive {
 		 MotorLeft.stop();
 		 
 		 while(sens(1) == 1){
+			 
 			 MotorLeft.backward();
 			 MotorRight.backward();
 			 Delay.msDelay(500);
@@ -81,9 +78,9 @@ public class Drive {
 		 }
 		 
 	 }
-	 public static void Curve(boolean left,float pro_stark) {
+	 public static void Curve(boolean left, boolean intersection,float pro_stark) {
 			 MotorLeft.setSpeed(motorStark*pro_stark);
-			 int sens = sens(2);
+			 int sens2 = sens(2);
 			if(left){
 			do {
 				 MotorLeft.forward();
@@ -91,12 +88,14 @@ public class Drive {
 				 MotorLeft.stop();
 				 System.out.println(MotorLeft.getSpeed() + " " + MotorLeft.getMaxSpeed() );
 				 
-				 if(sens == 2) {
+				 if(sens2 == 2 && !intersection) {
+					 
 					 Delay.msDelay(turnTime);
 					 MotorLeft.stop();
 					 break;
 				}
-			 } while(sens == 1);
+				intersection = false;
+			 } while(sens2 == 1);
 			
 			 Sound.beep();
 			}
@@ -107,40 +106,38 @@ public class Drive {
 					 MotorRight.stop();
 					 System.out.println(MotorRight.getSpeed() + " " + MotorRight.getMaxSpeed() );
 					 
-					 if(sens == 2) {
+					 if(sens2 == 2) {
 						 Delay.msDelay(turnTime);
 						 MotorRight.stop();
 						 break;
 					}
-				 } while(sens == 1);
+				 } while(sens2 == 1);
 				
 				 Sound.beep();
 			}
 	}
 
 	 public static void straight() {
-		 int sens = sens(2); //mtte
-		 int sensl = sens(1); // left
-		 int sensr = sens(3); // right
+	
+		 int sensL = sens(1); // left
+		 int sensM = sens(2); //mtte
+		 int sensR = sens(3); // right
 		 
 		 MotorLeft.setSpeed(motorStark);
 		 MotorRight.setSpeed(motorStark);
-		 while(sens == 2) {
+		 while(sensM == 2) {
 			 MotorLeft.forward();
 			 MotorRight.forward();
-			 sens = sens(2);
+			 sensM = sens(2);
 		 }
 		 	MotorLeft.stop();
 		 	MotorRight.stop();
-		 if(sensl == 2) {
-			 Curve(true,0.9f);
+		 if(sensL == 2) {
+			 Curve(true,false,0.9f);
 		 }
-		 if(sensr == 2){
-			 Curve(false,0.9f);
+		 if(sensR == 2){
+			 Curve(false,false,0.9f);
 		 }
 	 }	
 
-	 public static void Xcrossseting(int dirction) {
-		 
-	 }
 }
